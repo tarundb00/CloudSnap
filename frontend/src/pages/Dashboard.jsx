@@ -74,33 +74,47 @@ export default function Dashboard() {
 
   return (
     <div className="page dashboard">
-      <div className="dashboard-header">
+      <div className="dashboard-header d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4 animate-in">
         <div>
-          <h1>Your uploads</h1>
-          <p className="dashboard-subtitle">
+          <h1 className="gradient-text fw-bold mb-1">Your uploads</h1>
+          <p className="dashboard-subtitle text-muted-soft mb-0">
             {activeCount} / {MAX_IMAGES} slots used — images vanish automatically once their timer runs out.
           </p>
         </div>
+        <span className="badge rounded-pill text-bg-light border px-3 py-2 fw-semibold">
+          {activeCount}/{MAX_IMAGES} active
+        </span>
       </div>
 
-      {error && <div className="alert-error">{error}</div>}
-      {toast && <div className="alert-success">{toast}</div>}
+      {error && <div className="alert alert-danger animate-fade">{error}</div>}
+      {toast && <div className="alert alert-success toast-alert animate-fade">{toast}</div>}
 
       <UploadForm onUpload={handleUpload} uploading={uploading} disabled={atLimit} />
       {atLimit && (
-        <p className="limit-note">
+        <p className="limit-note alert alert-warning mt-3">
           You've reached the {MAX_IMAGES}-image limit. Delete one to upload another.
         </p>
       )}
 
       {loading ? (
-        <p className="muted">Loading images…</p>
+        <p className="muted text-muted-soft text-center py-5">Loading images…</p>
       ) : images.length === 0 ? (
-        <p className="muted">Nothing uploaded yet. Add your first image above.</p>
+        <div className="empty-state text-center py-5">
+          <div className="empty-icon mb-3">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="4" width="18" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
+              <circle cx="8.3" cy="9.3" r="1.6" stroke="currentColor" strokeWidth="1.6" />
+              <path d="M3.8 16.5 8.5 12l3 2.7 3.8-4.2 4.9 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <p className="muted text-muted-soft mb-0">Nothing uploaded yet. Add your first image above.</p>
+        </div>
       ) : (
-        <div className="image-grid">
+        <div className="image-grid row g-4 mt-1">
           {images.map((img) => (
-            <ImageCard key={img.id} image={img} onDelete={handleDelete} onCopy={handleCopy} />
+            <div className="col-12 col-sm-6 col-lg-4" key={img.id}>
+              <ImageCard image={img} onDelete={handleDelete} onCopy={handleCopy} />
+            </div>
           ))}
         </div>
       )}
