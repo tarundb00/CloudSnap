@@ -10,6 +10,7 @@ import SharePage from './pages/SharePage'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 export default function App() {
+  //comment 
   return (
     <AuthProvider>
       <Navbar />
